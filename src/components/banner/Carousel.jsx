@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { TrendingCoins } from '../../config/Api'
 import { CryptoState } from '../../CryptoContext';
 import AliceCarousel from 'react-alice-carousel';
@@ -10,22 +10,26 @@ export function numberWithCommas(x) {
 }
 
 
+
+const fetchTrendingCoins = async () => {
+    console.log("re-render");
+    try {
+        const {data}= await axios.get(TrendingCoins("INR"));//need to send the currency
+        return data;
+    } catch (error) {
+        console.error("Currently facing error in fetching data in carousel! ", error);
+    }
+
+}
+
 function Carousel() {
     const [trending, setTrending] = useState([]);
-    const { currency, symbol } = CryptoState();
+    const { currency, symbol  } = useCallback(CryptoState(),[]);
+    curr = currency;
 
-    const fetchTrendingCoins = async () => {
-        try {
-            const { data } = await axios.get(TrendingCoins(currency));//need to send the currency
-            setTrending(data);//returns an array
-        } catch (error) {
-            console.error("Currently facing error in fetching data in carousel! ", error);
-        }
-
-    }
-    console.log(trending);
     useEffect(() => {
-        fetchTrendingCoins();
+        fetchTrendingCoins().then(setTrending);
+        val=trending;
     }, [currency]);
 
 
@@ -102,4 +106,4 @@ function Carousel() {
     )
 }
 
-export default Carousel
+export default memo(Carousel)

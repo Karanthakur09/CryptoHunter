@@ -1,5 +1,5 @@
 import { AppBar, Container, MenuItem, Select, ThemeProvider, Toolbar, Typography, createTheme } from '@mui/material'
-import React from 'react';
+import React, { memo } from 'react';
 import { useNavigate } from "react-router-dom";
 import { CryptoState } from '../CryptoContext';
 
@@ -38,10 +38,10 @@ function Header() {
               sx={{ width: 100, height: 40, marginLeft: 15 }}
               onChange={(e) => setCurrency(e.target.value)}
             >
-              <MenuItem value={"USD"}>
+              <MenuItem value={currency}>
                 USD
               </MenuItem>
-              <MenuItem value={"INR"}>
+              <MenuItem value={currency}>
                 INR
               </MenuItem>
             </Select>
@@ -52,4 +52,4 @@ function Header() {
   )
 }
 
-export default Header
+export default memo(Header)

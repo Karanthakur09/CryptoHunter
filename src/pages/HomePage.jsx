@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import Banner from '../components/banner/Banner'
 
 function HomePage() {
@@ -7,4 +7,4 @@ function HomePage() {
   )
 }
 
-export default HomePage
+export default memo(HomePage)
