@@ -14,7 +14,7 @@ export function numberWithCommas(x) {
 const fetchTrendingCoins = async () => {
     console.log("re-render");
     try {
-        const {data}= await axios.get(TrendingCoins("INR"));//need to send the currency
+        const { data } = await axios.get(TrendingCoins("INR"));//need to send the currency
         return data;
     } catch (error) {
         console.error("Currently facing error in fetching data in carousel! ", error);
@@ -24,12 +24,12 @@ const fetchTrendingCoins = async () => {
 
 function Carousel() {
     const [trending, setTrending] = useState([]);
-    const { currency, symbol  } = useCallback(CryptoState(),[]);
-    curr = currency;
+    const { currency, symbol } = CryptoState();
+
 
     useEffect(() => {
         fetchTrendingCoins().then(setTrending);
-        val=trending;
+
     }, [currency]);
 
 
@@ -106,4 +106,4 @@ function Carousel() {
     )
 }
 
-export default memo(Carousel)
+export default memo(Carousel);

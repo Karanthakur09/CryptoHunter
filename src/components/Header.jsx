@@ -34,14 +34,16 @@ function Header() {
             >
               Crypto Hunter
             </Typography>
-            <Select variant='outlined' value={"INR"}
+            <Select variant='outlined' value={currency}
+             labelId="demo-simple-select-label"
+             id="demo-simple-select"
               sx={{ width: 100, height: 40, marginLeft: 15 }}
               onChange={(e) => setCurrency(e.target.value)}
             >
-              <MenuItem value={currency}>
+              <MenuItem value={"USD"}>
                 USD
               </MenuItem>
-              <MenuItem value={currency}>
+              <MenuItem value={"INR"}>
                 INR
               </MenuItem>
             </Select>
