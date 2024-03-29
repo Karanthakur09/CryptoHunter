@@ -1,12 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { CryptoState } from '../CryptoContext';
 import { SingleCoin } from '../config/Api';
 import axios from 'axios';
-import CoinInfo from '../components/banner/CoinInfo';
-import { LinearProgress, Typography } from '@mui/material';
+import CoinInfo from '../components/CoinInfo';
+import { LinearProgress, Typography, createTheme } from '@mui/material';
 import parse from 'html-react-parser';
 import { numberWithCommas } from '../components/banner/Carousel';
+
+export const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
 
 function CoinPage() {
   const { id } = useParams();
@@ -24,17 +36,7 @@ function CoinPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const theme = createTheme({
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 900,
-        lg: 1200,
-        xl: 1536,
-      },
-    },
-  });
+  
 
   if (!coin) return <LinearProgress style={{ backgroundColor: "gold" }} />;
 
@@ -58,14 +60,14 @@ function CoinPage() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          marginTop: 13,
+          marginTop: 50,
         }
       }>
         <img
           src={coin?.image.large}
           alt={coin?.name}
           height="200"
-          style={{ marginBottom: 20 }}
+          style={{ marginBottom: 8 }}
         />
         <Typography variant="h3"
           sx={{
@@ -79,8 +81,8 @@ function CoinPage() {
           sx={{
             width: "100%",
             fontFamily: "Montserrat",
-            padding: 12,
-            paddingBottom: 9,
+            padding: 1,
+            paddingBottom: 3,
             paddingTop: 0,
             textAlign: "justify",
           }} >
@@ -88,7 +90,7 @@ function CoinPage() {
         </Typography>
         <div style={{
           alignSelf: "start",
-          padding: 12,
+          padding: 4,
           paddingTop: 9,
           width: "100%",
           [theme.breakpoints.down("md")]: {
@@ -107,7 +109,7 @@ function CoinPage() {
             <Typography variant="h5" sx={
               {
                 fontWeight: "bold",
-                marginBottom: 10,
+                marginBottom: 5,
                 fontFamily: "Montserrat",
 
               }
@@ -129,7 +131,7 @@ function CoinPage() {
             <Typography variant="h5" sx={
               {
                 fontWeight: "bold",
-                marginBottom: 10,
+                marginBottom: 5,
                 fontFamily: "Montserrat",
               }
             }>
@@ -151,7 +153,7 @@ function CoinPage() {
           <span style={{ display: "flex" }}>
             <Typography variant="h5" sx={{
               fontWeight: "bold",
-              marginBottom: 10,
+              marginBottom: 5,
               fontFamily: "Montserrat",
             }}>
               Market Cap:

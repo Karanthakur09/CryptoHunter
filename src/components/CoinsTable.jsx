@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { CryptoState } from '../CryptoContext';
 import { numberWithCommas } from './banner/Carousel';
 import axios from 'axios';
+import { getData, putData } from '../aws';
 
 function CoinsTable() {
     const [coins, setCoins] = useState([]);
@@ -28,11 +29,22 @@ function CoinsTable() {
     const fetchCoins = async () => {
 
         setLoading(true);
-        const { data } = await axios.get(CoinList(currency));
-        console.log(data);
+        //need to save data on AWS for time being 
+        try {
+            const { data } = await axios.get(CoinList(currency));
+            console.log(data);
 
-        setCoins(data);
-        setLoading(false);
+            await putData(data);
+
+            setCoins(data);
+            setLoading(false);
+        } catch (error) {
+            //save data on aws 
+            const { data } = await getData();//from s3 bucket
+            setCoins(data);
+            setLoading(false);
+            console.log("Error! in fetching data from coinList api using s3 for now!", error);
+        }
 
     };
 

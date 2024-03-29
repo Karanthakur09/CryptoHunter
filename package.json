@@ -10,14 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.540.0",
+    "@aws-sdk/s3-request-presigner": "^3.540.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@mui/lab": "^5.0.0-alpha.169",
     "@mui/material": "^5.15.14",
     "axios": "^1.6.8",
+    "dotenv": "^16.4.5",
     "html-react-parser": "^5.1.10",
     "react": "^18.2.0",
     "react-alice-carousel": "^2.9.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3"
   },
