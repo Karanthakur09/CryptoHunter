@@ -1,8 +1,7 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+#Rate limit on the api calls for gecko trying to strore data in s3 aws for temperory basis and rendering component from it
 
-Currently, two official plugins are available:
+UseNavigate cause waste rendering
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+link to issue of useNavigate - https://github.com/remix-run/react-router/issues/7634
