@@ -2,12 +2,17 @@ import { AppBar, Box, Button, Fade, Modal, Tab, Tabs, createTheme } from '@mui/m
 import React, { useState } from 'react'
 import Login from './Login';
 import SignUp from './SignUp';
+import GoogleButton from 'react-google-button';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '../../firebase';
+import { CryptoState } from '../../CryptoContext';
 
 const AuthModal = () => {
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(0);
 
+  const { setAlert } = CryptoState();
 
   const handleOpen = () => {
     setOpen(true);
@@ -20,14 +25,30 @@ const AuthModal = () => {
     setValue(newValue);
   };
 
-  const darkTheme = createTheme({
-    palette: {
-        primary: {
-            main: "#666",
-        },
-        mode: "dark",
-    },
-});
+  
+
+  const googleProvider = new GoogleAuthProvider();
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, googleProvider)
+      .then((res) => {
+        setAlert({
+          open: true,
+          message: `Sign Up Successful. Welcome ${res.user.email}`,
+          type: "success",
+        });
+
+        handleClose();
+      })
+      .catch((error) => {
+        setAlert({
+          open: true,
+          message: error.message,
+          type: "error",
+        });
+        return;
+      });
+  };
+
 
 
   return (
@@ -48,7 +69,7 @@ const AuthModal = () => {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         sx={{
-          marginTop:15,
+          marginTop: 15,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -90,14 +111,19 @@ const AuthModal = () => {
             {value === 0 && <Login handleClose={handleClose} />}
             {value === 1 && <SignUp handleClose={handleClose} />}
             <Box sx={{
-              padding: 8,
+              padding: 2,
               paddingTop: 0,
               display: "flex",
               flexDirection: "column",
               textAlign: "center",
-              gap: 20,
+              gap: 1,
               fontSize: 20,
             }}>
+              <span>OR</span>
+              <GoogleButton
+                style={{ width: "100%", outline: "none" }}
+                onClick={signInWithGoogle}
+              />
             </Box>
           </div>
         </Fade>
