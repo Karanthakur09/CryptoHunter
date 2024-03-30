@@ -13,12 +13,7 @@ function CoinsTable() {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
-    const { currency, symbol, coins, loading, fetchCoins } = CryptoState();
-
-
-    useEffect(() => {
-        fetchCoins();
-    }, [currency]);
+    const { currency, symbol, coins, loading } = CryptoState();
 
     const handleSearch = () => {
         return coins.filter(

@@ -2,7 +2,10 @@ import React from 'react'
 import { CryptoState } from '../../CryptoContext';
 import { Avatar, Button, Drawer } from '@mui/material';
 import { signOut } from 'firebase/auth';
-import { auth } from '../../firebase';
+import { auth, db } from '../../firebase';
+import { numberWithCommas } from '../banner/Carousel';
+import { AiFillDelete } from "react-icons/ai";
+import { doc, setDoc } from 'firebase/firestore';
 
 const UserSidebar = () => {
     const [state, setState] = React.useState({
@@ -30,6 +33,29 @@ const UserSidebar = () => {
 
         toggleDrawer();
     };
+    const removeFromWatchlist = async (coin) => {
+        const coinRef = doc(db, "watchlist", user.uid);
+        try {
+          await setDoc(
+            coinRef,
+            { coins: watchlist.filter((wish) => wish !== coin?.id) },
+            { merge: true }
+          );
+    
+          setAlert({
+            open: true,
+            message: `${coin.name} Removed from the Watchlist !`,
+            type: "success",
+          });
+        } catch (error) {
+          setAlert({
+            open: true,
+            message: error.message,
+            type: "error",
+          });
+        }
+      };
+    
 
 
     return (
@@ -115,7 +141,19 @@ const UserSidebar = () => {
                                     {coins.map((coin) => {
                                         if (watchlist.includes(coin.id))
                                             return (
-                                                <div className={classes.coin}>
+                                                <div style={
+                                                    {
+                                                        padding: 10,
+                                                        borderRadius: 5,
+                                                        color: "black",
+                                                        width: "100%",
+                                                        display: "flex",
+                                                        justifyContent: "space-between",
+                                                        alignItems: "center",
+                                                        backgroundColor: "#EEBC1D",
+                                                        boxShadow: "0 0 3px black",
+                                                    }
+                                                }>
                                                     <span>{coin.name}</span>
                                                     <span style={{ display: "flex", gap: 8 }}>
                                                         {symbol}{" "}
