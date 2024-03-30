@@ -1,12 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CryptoState } from '../CryptoContext';
 import axios from 'axios';
 import { HistoricalChart } from '../config/Api';
-import { CircularProgress, ThemeProvider, createTheme } from '@mui/material';
-import { theme } from '../pages/CoinPage';
+import { CircularProgress, ThemeProvider, createTheme, useTheme } from '@mui/material';
+
 import { Line } from 'react-chartjs-2';
+import SelectButton from './SelectButton';
+import { chartDays } from '../config/data';
+import { Chart, registerables} from 'chart.js';
+
+Chart.register(...registerables);
 
 function CoinInfo({ coin }) {
+    const theme = useTheme();
     const [historicData, setHistoricData] = useState();
     const [days, setDays] = useState(1);
     const { currency } = CryptoState();
@@ -42,11 +48,11 @@ function CoinInfo({ coin }) {
                 alignItems: "center",
                 justifyContent: "center",
                 marginTop: 25,
-                padding: 40,
+                padding: 20,
                 [theme.breakpoints.down("md")]: {
                     width: "100%",
                     marginTop: 0,
-                    padding: 20,
+                    padding: 9,
                     paddingTop: 0,
                 },
             }}>
@@ -59,7 +65,9 @@ function CoinInfo({ coin }) {
                 ) : (
                     <>
                         <Line
+                         datasetIdKey='id'
                             data={{
+
                                 labels: historicData.map((coin) => {
                                     let date = new Date(coin[0]);
                                     let time =
@@ -68,23 +76,44 @@ function CoinInfo({ coin }) {
                                             : `${date.getHours()}:${date.getMinutes()} AM`;
                                     return days === 1 ? time : date.toLocaleDateString();
                                 }),
+
                                 datasets: [
                                     {
                                         data: historicData.map((coin) => coin[1]),
                                         label: `Price ( Past ${days} Days ) in ${currency}`,
                                         borderColor: "#EEBC1D",
-                                    },
+                                    }
                                 ],
                             }}
                             options={{
                                 elements: {
-                                  point: {
-                                    radius: 1,
-                                  },
+                                    point: {
+                                        radius: 1,
+                                    },
                                 },
-                              }}
+                            }}
                         />
-
+                        <div
+                            style={{
+                                display: "flex",
+                                marginTop: 20,
+                                justifyContent: "space-around",
+                                width: "100%",
+                            }}
+                        >
+                            {chartDays.map((day) => (
+                                <SelectButton
+                                    key={day.value}
+                                    onClick={() => {
+                                        setDays(day.value);
+                                        setflag(false);
+                                    }}
+                                    selected={day.value === days}
+                                >
+                                    {day.label}
+                                </SelectButton>
+                            ))}
+                        </div>
                     </>
                 )}
             </div>

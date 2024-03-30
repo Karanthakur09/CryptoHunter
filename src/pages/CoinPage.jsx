@@ -4,23 +4,14 @@ import { CryptoState } from '../CryptoContext';
 import { SingleCoin } from '../config/Api';
 import axios from 'axios';
 import CoinInfo from '../components/CoinInfo';
-import { LinearProgress, Typography, createTheme } from '@mui/material';
+import { LinearProgress, Typography, createTheme, useTheme } from '@mui/material';
 import parse from 'html-react-parser';
 import { numberWithCommas } from '../components/banner/Carousel';
 
-export const theme = createTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 900,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
-});
+
 
 function CoinPage() {
+  const theme = useTheme();
   const { id } = useParams();
   const [coin, setCoin] = useState();
   const { currency, symbol } = CryptoState();
@@ -36,7 +27,7 @@ function CoinPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  
+
 
   if (!coin) return <LinearProgress style={{ backgroundColor: "gold" }} />;
 
@@ -45,7 +36,7 @@ function CoinPage() {
     <div style={
       {
         display: "flex",
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down('md')]: {
           flexDirection: "column",
           alignItems: "center",
         },
@@ -54,13 +45,13 @@ function CoinPage() {
       <div style={
         {
           width: "30%",
-          [theme.breakpoints.down("md")]: {
+          [theme.breakpoints.down('md')]: {
             width: "100%",
           },
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          marginTop: 50,
+          marginTop: 70,
         }
       }>
         <img
@@ -93,15 +84,15 @@ function CoinPage() {
           padding: 4,
           paddingTop: 9,
           width: "100%",
-          [theme.breakpoints.down("md")]: {
+          [theme.breakpoints.down('md')]: {
             display: "flex",
             justifyContent: "space-around",
           },
-          [theme.breakpoints.down("sm")]: {
+          [theme.breakpoints.down('sm')]: {
             flexDirection: "column",
             alignItems: "center",
           },
-          [theme.breakpoints.down("xs")]: {
+          [theme.breakpoints.down('xs')]: {
             alignItems: "start",
           },
         }}>
@@ -178,6 +169,7 @@ function CoinPage() {
 
       </div>
       <CoinInfo coin={coin} />
+
     </div>
   )
 }

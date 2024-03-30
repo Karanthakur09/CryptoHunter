@@ -1,5 +1,5 @@
 import { Container, Typography } from '@mui/material'
-import React from 'react'
+import React, { memo } from 'react'
 import Carousel from './Carousel'
 
 function Banner() {
@@ -29,18 +29,18 @@ function Banner() {
                     >
                         Crypto Hunter
                     </Typography>
-                    <Typography 
-                    variant='subtitle2'
-                    sx={{
-                        marginBottom: 6,
-                        color: "darkgrey",
-                        textTransform: "capitalize",
-                        fontFamily: "Montserrat",
-                    }}>
+                    <Typography
+                        variant='subtitle2'
+                        sx={{
+                            marginBottom: 6,
+                            color: "darkgrey",
+                            textTransform: "capitalize",
+                            fontFamily: "Montserrat",
+                        }}>
                         Get all the Info regarding your favorite Crypto Currency
 
                     </Typography>
-                    <Carousel/>
+                    <Carousel />
 
                 </div>
 
@@ -50,4 +50,4 @@ function Banner() {
     )
 }
 
-export default Banner
+export default memo(Banner)

@@ -11,25 +11,21 @@ export function numberWithCommas(x) {
 
 
 
-const fetchTrendingCoins = async () => {
-    console.log("re-render");
-    try {
-        const { data } = await axios.get(TrendingCoins("INR"));//need to send the currency
-        return data;
-    } catch (error) {
-        console.error("Currently facing error in fetching data in carousel! ", error);
-    }
-
-}
-
 function Carousel() {
     const [trending, setTrending] = useState([]);
     const { currency, symbol } = CryptoState();
 
+    const fetchTrendingCoins = async () => {
+        try {
+            const { data } = await axios.get(TrendingCoins(currency));//need to send the currency
+            return data;
+        } catch (error) {
+            console.log("Currently facing error in fetching data in carousel! ", error);
+        }
+    }
 
     useEffect(() => {
         fetchTrendingCoins().then(setTrending);
-
     }, [currency]);
 
 
@@ -52,7 +48,7 @@ function Carousel() {
                     src={coin?.image}
                     alt={coin.name}
                     height="80"
-                    style={{ marginBottom: 10 }}
+                    style={{ marginBottom: 12 }}
                 />
                 <span>
                     {coin?.symbol}
@@ -68,7 +64,7 @@ function Carousel() {
                     </span>
 
                 </span>
-                <span style={{ fontSize: 22, fontWeight: 500 }}>
+                <span style={{ fontSize: 20, fontWeight: 500 }}>
                     {symbol} {numberWithCommas(coin?.current_price.toFixed(2))}
                 </span>
             </Link>
@@ -86,23 +82,26 @@ function Carousel() {
         },
     };
     return (
-        <div style={{
-            height: "50%",
-            display: "flex",
-            alignItems: "center",
-        }}>
-            <AliceCarousel
-                mouseTracking
-                infinite
-                autoPlayInterval={1000}
-                animationDuration={1500}
-                disableDotsControls
-                disableButtonsControls
-                responsive={responsive}//items to see at one time
-                items={items}
-                autoPlay
-            />
-        </div>
+        trending && (
+            <div style={{
+                height: "50%",
+                display: "flex",
+                alignItems: "top",
+            }}>
+                <AliceCarousel
+                    mouseTracking
+                    infinite
+                    autoPlayInterval={1000}
+                    animationDuration={1500}
+                    disableDotsControls
+                    disableButtonsControls
+                    responsive={responsive}//items to see at one time
+                    items={items}
+                    autoPlay
+                />
+            </div>
+        )
+
     )
 }
 
